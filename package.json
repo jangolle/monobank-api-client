@@ -7,6 +7,7 @@
   "author": "jangolle <elijah.zakirov@gmail.com>",
   "license": "MIT",
   "private": false,
+  "keywords": ["monobank", "api", "client", "monobank-api", "monobank-nodejs"],
   "scripts": {
     "lint": "yarn prettier:cmd --check \"README.md\" \"src/**/*.{json,js}\" \"config/*.{json,js}\"  \"tests/**/*.{json,js}\"",
     "lint:fix": "yarn prettier",
