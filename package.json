@@ -1,0 +1,54 @@
+{
+  "name": "monobank-api-client",
+  "version": "0.1.0",
+  "description": "Simple Monobank API client",
+  "main": "index.js",
+  "repository": "https://github.com/jangolle/monobank-api-client",
+  "author": "jangolle <elijah.zakirov@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "lint": "yarn prettier:cmd --check \"README.md\" \"src/**/*.{json,js}\" \"config/*.{json,js}\"  \"tests/**/*.{json,js}\"",
+    "lint:fix": "yarn prettier",
+    "prettier": "yarn prettier:cmd --write \"README.md\" \"src/**/*.{json,js}\" \"config/*.{json,js}\"  \"tests/**/*.{json,js}\"",
+    "prettier:cmd": "prettier --config .prettierrc",
+    "test": "yarn run unit-test",
+    "unit-test": "NODE_ENV=test ./node_modules/.bin/mocha --opts tests/mocha.opts -R spec ./tests/Unit/**",
+    "test:coverage": "NODE_ENV=test ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --print both -- --opts tests/mocha.opts -R spec ./tests"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn lint"
+    }
+  },
+  "lint-staged": {
+    "*.{md,json,js}": [
+      "yarn prettier:cmd --write",
+      "git add"
+    ]
+  },
+  "engines": {
+    "node": ">=8.1"
+  },
+  "dependencies": {
+    "app-module-path": "^2.2.0",
+    "axios": "^0.19.0",
+    "currency-codes": "^1.5.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "chai": "4.0.2",
+    "eslint": "4.0.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-prettier": "^3.0.1",
+    "husky": "^1.3.1",
+    "istanbul": "1.1.0-alpha.1",
+    "lint-staged": "^8.1.5",
+    "mocha": "3.4.2",
+    "prettier": "^1.16.4",
+    "pretty-quick": "^1.10.0",
+    "sinon": "2.3.4",
+    "supertest": "3.0.0"
+  }
+}
