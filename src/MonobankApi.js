@@ -1,11 +1,11 @@
 'use strict';
 
 const axios = require('axios');
-const Endpoint = require('src/Endpoint');
-const Transaction = require('src/ValueObject/Transaction');
-const CurrencyInfo = require('src/ValueObject/CurrencyInfo');
-const Account = require('src/ValueObject/Account');
-const UserInfo = require('src/ValueObject/UserInfo');
+const Endpoint = require('./Endpoint');
+const Transaction = require('./ValueObject/Transaction');
+const CurrencyInfo = require('./ValueObject/CurrencyInfo');
+const Account = require('./ValueObject/Account');
+const UserInfo = require('./ValueObject/UserInfo');
 
 const BASE_URL = 'https://api.monobank.ua';
 const TIMEOUT = 1000;
