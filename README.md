@@ -33,4 +33,7 @@ api.getUserInfo();
 
 // promise resolved with Transaction[]
 api.getStatement({ account: 'ACCOUNT_ID', from: new Date('2019-06-01'), to: new Date('2019-06-28') });
+
+// promise resolved with Transaction[]
+api.getStatementByCurrencyCode({ currencyCode: 'UAH', from: new Date('2019-07-01') });
 ```

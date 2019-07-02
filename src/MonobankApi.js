@@ -24,6 +24,8 @@ class MonobankApi {
       },
       timeout: TIMEOUT,
     });
+
+    this._currencyToAccountIdsMap = {};
   }
 
   /**
@@ -67,7 +69,7 @@ class MonobankApi {
   /**
    * @param {string} account
    * @param {Date} from
-   * @param {Date} to
+   * @param {Date=} to
    * @returns {Promise<Transaction[]>}
    */
   async getStatement({ account, from, to }) {
@@ -84,6 +86,36 @@ class MonobankApi {
       if (err.isAxiosError) {
         throw new Error(err.response.data.errorDescription || 'Undefined API error');
       }
+    }
+  }
+
+  /**
+   * @param {string} currencyCode according to ISO 3166-1 alpha-3
+   * @param {Date} from
+   * @param {Date=} to
+   * @returns {Promise<Transaction[]>}
+   */
+  async getStatementByCurrencyCode({ currencyCode, from, to }) {
+    try {
+      const { accounts } = await this.getUserInfo();
+
+      if (!this._currencyToAccountIdsMap[currencyCode]) {
+        accounts.forEach(acc => {
+          this._currencyToAccountIdsMap[acc.currencyCode.code] = acc.id;
+        });
+      }
+
+      if (!this._currencyToAccountIdsMap[currencyCode]) {
+        throw new Error(`There is no account for currencyCode "${currencyCode}"`);
+      }
+
+      return this.getStatement({ account: this._currencyToAccountIdsMap[currencyCode], from, to });
+    } catch (err) {
+      if (err.isAxiosError) {
+        throw new Error(err.response.data.errorDescription || 'Undefined API error');
+      }
+
+      throw err;
     }
   }
 
