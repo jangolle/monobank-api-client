@@ -4,9 +4,11 @@
 ![Travis (.org)](https://img.shields.io/travis/JanGolle/monobank-api-client.svg?style=flat-square)
 ![Codecov](https://img.shields.io/codecov/c/github/JanGolle/monobank-api-client.svg?style=flat-square)
 
-# NodeJS Monobank API client
+# Monobank API client for Node.JS
 
-Simple Monobank API client wrapper build on promises.
+![monocat](https://user-images.githubusercontent.com/6859896/60574746-ce106100-9d82-11e9-9418-1beccf3f24a7.png)
+
+Monobank API client wrapper build on promises.
 
 ## Installation
 
@@ -43,3 +45,8 @@ api.getStatement({ account: 'ACCOUNT_ID', from: new Date('2019-06-01'), to: new 
 // promise resolved with Transaction[]
 api.getStatementByCurrencyCode({ currencyCode: 'UAH', from: new Date('2019-07-01') });
 ```
+
+## Roadmap
+
+- Tests
+- Improve error api
