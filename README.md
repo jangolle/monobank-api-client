@@ -6,7 +6,7 @@
 
 # Monobank API client for Node.JS
 
-![monocat](https://user-images.githubusercontent.com/6859896/60574746-ce106100-9d82-11e9-9418-1beccf3f24a7.png)
+![monocat](https://user-images.githubusercontent.com/6859896/60575987-3102f780-9d85-11e9-986e-b7126af57f8d.png)
 
 Monobank API client wrapper build on promises.
 
