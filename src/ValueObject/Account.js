@@ -15,6 +15,11 @@ class Account {
     this._balance = balance;
     this._creditLimit = creditLimit;
     this._currencyCode = cc.number(currencyCode);
+
+    if (this._currencyCode.code === 'XXX') {
+      throw new Error(`Invalid currencyCode value "${currencyCode}"`);
+    }
+
     this._cashbackType = cashbackType;
   }
 

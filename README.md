@@ -1,3 +1,7 @@
+![node](https://img.shields.io/node/v/monobank-api-client.svg?style=flat-square)
+![npm](https://img.shields.io/npm/v/monobank-api-client.svg?style=flat-square)
+![npm](https://img.shields.io/npm/dm/monobank-api-client.svg?style=flat-square)
+
 # NodeJS Monobank API client
 
 Simple Monobank API client wrapper build on promises.
