@@ -7,7 +7,13 @@
   "author": "jangolle <elijah.zakirov@gmail.com>",
   "license": "MIT",
   "private": false,
-  "keywords": ["monobank", "api", "client", "monobank-api", "monobank-nodejs"],
+  "keywords": [
+    "monobank",
+    "api",
+    "client",
+    "monobank-api",
+    "monobank-nodejs"
+  ],
   "scripts": {
     "lint": "yarn prettier:cmd --check \"README.md\" \"src/**/*.{json,js}\" \"config/*.{json,js}\"  \"tests/**/*.{json,js}\"",
     "lint:fix": "yarn prettier",
@@ -35,7 +41,9 @@
   "dependencies": {
     "app-module-path": "^2.2.0",
     "axios": "^0.19.0",
-    "currency-codes": "^1.5.0"
+    "currency-codes": "^1.5.0",
+    "rsa-key": "^0.0.6",
+    "secp256k1": "^3.7.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
