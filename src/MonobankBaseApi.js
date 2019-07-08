@@ -13,17 +13,23 @@ class MonobankBaseApi {
    * @param {int} timeout
    */
   constructor({ baseURL, timeout }) {
+    if (this.constructor === MonobankBaseApi) {
+      throw new Error('Base class cannot be constructed.');
+    }
+
     this._clientOptions = { baseURL, timeout };
     this._currencyToAccountIdsMap = {};
   }
 
   /**
+   * @param {{}=} headers
    * @returns {Promise<CurrencyInfo[]>}
    */
-  async getCurrencyList() {
+  async getCurrencyList(headers = {}) {
     try {
       const { data } = await this._callEndpoint({
         method: 'GET',
+        headers,
         endpoint: Endpoint.CURRENCY_LIST,
       });
 
@@ -36,12 +42,14 @@ class MonobankBaseApi {
   }
 
   /**
+   * @param {{}=} headers
    * @returns {Promise<UserInfo>}
    */
-  async getUserInfo() {
+  async getUserInfo(headers = {}) {
     try {
       const { data } = await this._callEndpoint({
         method: 'GET',
+        headers,
         endpoint: Endpoint.CLIENT_INFO,
       });
 
@@ -59,18 +67,19 @@ class MonobankBaseApi {
    * @param {string} account
    * @param {Date} from
    * @param {Date=} to
+   * @param {string=} endpoint
+   * @param {{}=} headers
    * @returns {Promise<Transaction[]>}
    */
-  async getStatement({ account, from, to }) {
+  async getStatement({ account, from, to }, headers = {}) {
     try {
       const { data } = await this._callEndpoint({
         method: 'GET',
-        endpoint: Endpoint.ACCOUNT_STATEMENT.replace('{account}', account)
-          .replace('{from}', Math.floor(from.getTime() / 1000))
-          .replace('{to}', Math.floor((to ? to.getTime() : new Date().getTime()) / 1000)),
+        headers,
+        endpoint: this._buildStatementEndpoint(account, from, to || new Date()),
       });
 
-      return data.map(v => new Transaction(v));
+      return data && data.map(v => new Transaction(v));
     } catch (err) {
       if (err.isAxiosError) {
         throw new Error(err.response.data.errorDescription || 'Undefined API error');
@@ -82,11 +91,12 @@ class MonobankBaseApi {
    * @param {string} currencyCode according to ISO 3166-1 alpha-3
    * @param {Date} from
    * @param {Date=} to
+   * @param {{}=} headers
    * @returns {Promise<Transaction[]>}
    */
-  async getStatementByCurrencyCode({ currencyCode, from, to }) {
+  async getStatementByCurrencyCode({ currencyCode, from, to }, headers = {}) {
     try {
-      const { accounts } = await this.getUserInfo();
+      const { accounts } = await this.getUserInfo(headers);
 
       if (!this._currencyToAccountIdsMap[currencyCode]) {
         accounts.forEach(acc => {
@@ -98,7 +108,7 @@ class MonobankBaseApi {
         throw new Error(`There is no account for currencyCode "${currencyCode}"`);
       }
 
-      return this.getStatement({ account: this._currencyToAccountIdsMap[currencyCode], from, to });
+      return this.getStatement({ account: this._currencyToAccountIdsMap[currencyCode], from, to }, headers);
     } catch (err) {
       if (err.isAxiosError) {
         throw new Error(err.response.data.errorDescription || 'Undefined API error');
@@ -117,6 +127,19 @@ class MonobankBaseApi {
     }
 
     return this._client;
+  }
+
+  /**
+   * @param {string} account
+   * @param {Date} from
+   * @param {Date} to
+   * @return {string}
+   * @private
+   */
+  _buildStatementEndpoint(account, from, to) {
+    return Endpoint.ACCOUNT_STATEMENT.replace('{account}', account)
+      .replace('{from}', Math.floor(from.getTime() / 1000))
+      .replace('{to}', Math.floor((to ? to.getTime() : new Date().getTime()) / 1000));
   }
 
   /**
