@@ -3,7 +3,7 @@
 const fs = require('fs');
 const asn1 = require('asn1.js');
 const crypto = require('crypto');
-const { InvalidPrivateKey } = require('./Error');
+const { InvalidPrivateKeyError } = require('./Error');
 
 class Signer {
   constructor(privateKey, keyHeaderPattern = /EC PRIVATE KEY/) {
@@ -18,7 +18,9 @@ class Signer {
         pkey = fs.readFileSync(privateKey, 'utf8');
       }
     } catch (err) {
-      throw new InvalidPrivateKey('"privateKey" must be valid ECDSA PEM string or valid path to readable PEM file');
+      throw new InvalidPrivateKeyError(
+        '"privateKey" must be valid ECDSA PEM string or valid path to readable PEM file',
+      );
     }
 
     this._privateKey = crypto.createPrivateKey(pkey);

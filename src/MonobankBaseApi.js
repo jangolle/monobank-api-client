@@ -1,10 +1,19 @@
 'use strict';
 
 const Endpoint = require('./Endpoint');
-const Transaction = require('./ValueObject/Transaction');
-const CurrencyInfo = require('./ValueObject/CurrencyInfo');
-const Account = require('./ValueObject/Account');
-const UserInfo = require('./ValueObject/UserInfo');
+const Transaction = require('./Dto/Transaction');
+const CurrencyInfo = require('./Dto/CurrencyInfo');
+const Account = require('./Dto/Account');
+const UserInfo = require('./Dto/UserInfo');
+const { BAD_REQUEST, FORBIDDEN, NOT_FOUND, UNAUTHORIZED, TOO_MANY_REQUESTS } = require('./HttpStatusCode');
+const {
+  InvalidRequestParamsError,
+  AccessForbiddenError,
+  NotFoundError,
+  UnauthorizedRequestError,
+  UndefinedApiError,
+  TooManyRequestsError,
+} = require('./Error');
 
 class MonobankBaseApi {
   /**
@@ -36,8 +45,19 @@ class MonobankBaseApi {
       return data.map(v => new CurrencyInfo(v));
     } catch (err) {
       if (err.isAxiosError) {
-        throw new Error(err.response.data.errorDescription || 'Undefined API error');
+        const { status, data } = err.response;
+
+        switch (status) {
+          case TOO_MANY_REQUESTS:
+            throw new TooManyRequestsError(data.errorDescription || 'Too many requests');
+          case UNAUTHORIZED:
+            throw new UnauthorizedRequestError(data.errorDescription || 'Unauthorized request');
+          default:
+            throw new UndefinedApiError(data.errorDescription || 'Unclassified API error');
+        }
       }
+
+      throw new UndefinedApiError('Something went wrong');
     }
   }
 
@@ -58,8 +78,19 @@ class MonobankBaseApi {
       return new UserInfo({ name, accounts: accounts.map(v => new Account(v)) });
     } catch (err) {
       if (err.isAxiosError) {
-        throw new Error(err.response.data.errorDescription || 'Undefined API error');
+        const { status, data } = err.response;
+
+        switch (status) {
+          case TOO_MANY_REQUESTS:
+            throw new TooManyRequestsError(data.errorDescription || 'Too many requests');
+          case UNAUTHORIZED:
+            throw new UnauthorizedRequestError(data.errorDescription || 'Unauthorized request');
+          default:
+            throw new UndefinedApiError(data.errorDescription || 'Unclassified API error');
+        }
       }
+
+      throw new UndefinedApiError('Something went wrong');
     }
   }
 
@@ -82,8 +113,25 @@ class MonobankBaseApi {
       return data && data.map(v => new Transaction(v));
     } catch (err) {
       if (err.isAxiosError) {
-        throw new Error(err.response.data.errorDescription || 'Undefined API error');
+        const { status, data } = err.response;
+
+        switch (status) {
+          case TOO_MANY_REQUESTS:
+            throw new TooManyRequestsError(data.errorDescription || 'Too many requests');
+          case UNAUTHORIZED:
+            throw new UnauthorizedRequestError(data.errorDescription || 'Unauthorized request');
+          case BAD_REQUEST:
+            throw new InvalidRequestParamsError(data.errorDescription || 'Invalid request');
+          case FORBIDDEN:
+            throw new AccessForbiddenError(data.errorDescription || 'Access forbidden');
+          case NOT_FOUND:
+            throw new NotFoundError(data.errorDescription || 'RequestId not found');
+          default:
+            throw new UndefinedApiError(data.errorDescription || 'Unclassified API error');
+        }
       }
+
+      throw new UndefinedApiError('Something went wrong');
     }
   }
 
@@ -111,10 +159,27 @@ class MonobankBaseApi {
       return this.getStatement({ account: this._currencyToAccountIdsMap[currencyCode], from, to }, headers);
     } catch (err) {
       if (err.isAxiosError) {
-        throw new Error(err.response.data.errorDescription || 'Undefined API error');
+        const { status, data } = err.response;
+
+        switch (status) {
+          case TOO_MANY_REQUESTS:
+            throw new TooManyRequestsError(data.errorDescription || 'Too many requests');
+          case UNAUTHORIZED:
+            throw new UnauthorizedRequestError(data.errorDescription || 'Unauthorized request');
+          case BAD_REQUEST:
+            throw new InvalidRequestParamsError(data.errorDescription || 'Invalid request');
+          case FORBIDDEN:
+            throw new AccessForbiddenError(data.errorDescription || 'Access forbidden');
+          case NOT_FOUND:
+            throw new NotFoundError(data.errorDescription || 'RequestId not found');
+          default:
+            throw new UndefinedApiError(data.errorDescription || 'Unclassified API error');
+        }
       }
 
-      throw err;
+      console.log(err);
+
+      throw new UndefinedApiError('Something went wrong');
     }
   }
 

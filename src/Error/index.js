@@ -9,10 +9,11 @@ class InvalidRequestParamsError extends ExtendableError {}
 class NotFoundError extends ExtendableError {}
 class UnauthorizedRequestError extends ExtendableError {}
 class UndefinedApiError extends ExtendableError {}
+class TooManyRequestsError extends ExtendableError {}
 
 module.exports = {
-  ExtendableError,
   InvalidPrivateKeyError,
+  TooManyRequestsError,
   InvalidPermissionValueError,
   AccessForbiddenError,
   InvalidRequestParamsError,

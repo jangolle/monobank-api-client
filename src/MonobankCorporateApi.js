@@ -7,7 +7,7 @@ const Signer = require('./Signer');
 const MonobankBaseApi = require('./MonobankBaseApi');
 const Permission = require('./Permission');
 const { BAD_REQUEST, FORBIDDEN, OK, NOT_FOUND, UNAUTHORIZED } = require('./HttpStatusCode');
-const AccessInfo = require('./ValueObject/AccessInfo');
+const AccessInfo = require('./Dto/AccessInfo');
 const {
   InvalidPermissionValueError,
   InvalidRequestParamsError,

@@ -1,10 +1,10 @@
 'use strict';
 
 const assert = require('chai').assert;
-const Account = require('src/ValueObject/Account');
+const Account = require('src/Dto/Account');
 const cc = require('currency-codes');
 
-describe('src/ValueObject/Account', () => {
+describe('src/Dto/Account', () => {
   it('must construct correct Account object', function() {
     const testCc = cc.number(980);
 
