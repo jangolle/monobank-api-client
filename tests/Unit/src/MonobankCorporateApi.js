@@ -2,9 +2,9 @@
 
 const assert = require('chai').assert;
 
-const MonobankApi = require('src/MonobankApi');
+const MonobankCorporateApi = require('src/MonobankCorporateApi');
 
-describe('src/MonobankApi', () => {
+describe('src/MonobankCorporateApi', () => {
   it('should be ok', function() {
     // TODO add tests
     assert.isOk('ok');

@@ -1,5 +1,6 @@
 'use strict';
 
 module.exports = {
-  MonobankApi: require('./src/MonobankApi'),
+  ClientFactory: require('./src/ClientFactory'),
+  Permission: require('./src/Permission'),
 };
