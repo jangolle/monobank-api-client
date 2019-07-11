@@ -1,6 +1,6 @@
 {
   "name": "monobank-api-client",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Monobank API client wrapper build on promises",
   "main": "index.js",
   "repository": "https://github.com/jangolle/monobank-api-client",
