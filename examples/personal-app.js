@@ -15,15 +15,13 @@ const from = new Date();
 from.setTime(to.getTime() - FROM_INTERVAL);
 
 const run = async () => {
-  // const userInfo = await api.getUserInfo();
+  const userInfo = await api.getUserInfo();
+
+  console.log('User info:\n', userInfo);
 
   const defaultStatement = await api.getStatement({ account: '0', from, to });
-  //
+
   console.log('Default account statement:\n', defaultStatement);
-  //
-  // const statement = await api.getStatementByCurrencyCode({ currencyCode: 'UAH', from, to });
-  //
-  // console.log('Currency account statement:\n', statement);
 };
 
 run().catch(console.log);
