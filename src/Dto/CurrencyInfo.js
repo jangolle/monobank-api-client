@@ -17,6 +17,15 @@ class CurrencyInfo {
 
     this._currencyCodeA = cc.number(currencyCodeA);
     this._currencyCodeB = cc.number(currencyCodeB);
+
+    if (typeof this._currencyCodeA === 'undefined') {
+      throw new Error(`Invalid currencyCodeA value "${currencyCodeA}"`);
+    }
+
+    if (typeof this._currencyCodeB === 'undefined') {
+      throw new Error(`Invalid currencyCodeB value "${currencyCodeB}"`);
+    }
+
     this._date = dateObj;
     this._rateSell = rateSell;
     this._rateBuy = rateBuy;

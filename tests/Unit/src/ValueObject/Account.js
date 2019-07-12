@@ -24,4 +24,22 @@ describe('src/Dto/Account', () => {
     assert.equal(account.currencyCode, testCc);
     assert.equal(account.cashbackType, accountData.cashbackType);
   });
+
+  it('must throw Error with invalid currency', function() {
+    const accountData = {
+      id: 'ffff',
+      balance: 12000,
+      creditLimit: 0,
+      currencyCode: 666,
+      cashbackType: 'None',
+    };
+
+    assert.throws(
+      () => {
+        new Account(accountData);
+      },
+      Error,
+      /^Invalid currencyCode value/,
+    );
+  });
 });

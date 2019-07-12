@@ -16,7 +16,7 @@ class Account {
     this._creditLimit = creditLimit;
     this._currencyCode = cc.number(currencyCode);
 
-    if (this._currencyCode.code === 'XXX') {
+    if (typeof this._currencyCode === 'undefined') {
       throw new Error(`Invalid currencyCode value "${currencyCode}"`);
     }
 
